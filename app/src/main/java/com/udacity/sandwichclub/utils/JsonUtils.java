@@ -1,6 +1,5 @@
 package com.udacity.sandwichclub.utils;
 
-import android.support.annotation.NonNull;
 import android.util.JsonReader;
 
 import com.udacity.sandwichclub.exception.AppException;
@@ -15,6 +14,15 @@ import java.util.List;
 
 public class JsonUtils {
 
+    public static final String JSON_KEY_NAME = "name";
+    public static final String JSON_KEY_MAIN_NAME = "mainName";
+    public static final String JSON_KEY_ALSO_KNOWN_AS = "alsoKnownAs";
+    public static final String JSON_KEY_PLACE_OF_ORIGIN = "placeOfOrigin";
+    public static final String JSON_KEY_DESCRIPTION = "description";
+    public static final String JSON_KEY_IMAGE = "image";
+    public static final String JSON_KEY_INGREDIENTS = "ingredients";
+
+
     public static Sandwich parseSandwichJson(String json) {
         Sandwich sandwich = new Sandwich();
         JsonReader jsonReader = new JsonReader(new StringReader(json));
@@ -25,16 +33,16 @@ public class JsonUtils {
             while (jsonReader.hasNext()) {
                 String jsonKey = jsonReader.nextName();
                 switch (jsonKey) {
-                    case "name":
+                    case JSON_KEY_NAME:
                         jsonReader.beginObject();
                         while (jsonReader.hasNext()) {
                             String nextName = jsonReader.nextName();
                             field = getSandwichClassField(nextName);
                             switch (nextName) {
-                                case "mainName":
+                                case JSON_KEY_MAIN_NAME:
                                     field.set(sandwich, jsonReader.nextString());
                                     break;
-                                case "alsoKnownAs":
+                                case JSON_KEY_ALSO_KNOWN_AS:
                                     field.set(sandwich, getStringListFromJsonReader(jsonReader));
                                     break;
                                 default:
@@ -43,13 +51,13 @@ public class JsonUtils {
                         }
                         jsonReader.endObject();
                         break;
-                    case "placeOfOrigin":
-                    case "description":
-                    case "image":
+                    case JSON_KEY_PLACE_OF_ORIGIN:
+                    case JSON_KEY_DESCRIPTION:
+                    case JSON_KEY_IMAGE:
                         field = getSandwichClassField(jsonKey);
                         field.set(sandwich, jsonReader.nextString());
                         break;
-                    case "ingredients":
+                    case JSON_KEY_INGREDIENTS:
                         field = getSandwichClassField(jsonKey);
                         field.set(sandwich, getStringListFromJsonReader(jsonReader));
                         break;

@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.exception.AppException;
-import com.udacity.sandwichclub.exception.code.AppErrorCode;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.AppUtils;
 import com.udacity.sandwichclub.utils.JsonUtils;
@@ -84,6 +83,8 @@ public class DetailActivity extends AppCompatActivity {
             populateUI(sandwich);
             Picasso.with(this)
                     .load(sandwich.getImage())
+                    .error(R.drawable.ic_broken_image)
+                    .placeholder(R.drawable.ic_image)
                     .into(ingredientsIv);
 
             setTitle(sandwich.getMainName());
